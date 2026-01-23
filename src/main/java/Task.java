@@ -8,9 +8,8 @@ public class Task {
         this.finished = false;
     }
 
-    public boolean toggle() {
-        this.finished = !this.finished;
-        return this.finished;
+    public void setStatus(boolean isDone) {
+        this.finished = isDone;
     }
 
     @Override

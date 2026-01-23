@@ -61,6 +61,13 @@ public class Bmo {
                     Bmo.unmark(Integer.parseInt(details) - 1);
                     break;
 
+                case "delete":
+                    if (details.isEmpty()) {
+                        throw new BmoException("Please indicate which task to delete.");
+                    }
+                    Bmo.delete(Integer.parseInt(details) - 1);
+                    break;
+
                 case "list":
                     Bmo.list();
                     break;
@@ -149,7 +156,7 @@ public class Bmo {
         if (index < 0 || index >= Bmo.storage.size()) {
             throw new BmoException("Task number is out of bounds.");
         }
-        Bmo.storage.get(index).toggle();
+        Bmo.storage.get(index).setStatus(true);
         System.out.println("Nice! I've marked this task as done:");
         System.out.println(Bmo.storage.get(index));
     }
@@ -158,9 +165,19 @@ public class Bmo {
         if (index < 0 || index >= Bmo.storage.size()) {
             throw new BmoException("Task number is out of bounds.");
         }
-        Bmo.storage.get(index).toggle();
+        Bmo.storage.get(index).setStatus(false);
         System.out.println("Ok, I've marked this task as not done yet:");
         System.out.println(Bmo.storage.get(index));
+    }
+
+    private static void delete(int index) throws BmoException {
+        if (index < 0 || index >= Bmo.storage.size()) {
+            throw new BmoException("Task number is out of bounds.");
+        }
+        Task task = Bmo.storage.remove(index);
+        System.out.println("Noted. I've removed this task:");
+        System.out.println("  " + task);
+        System.out.println("Now you have " + Bmo.storage.size() + " tasks in the list.");
     }
 
 }
