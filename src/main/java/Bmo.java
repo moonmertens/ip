@@ -37,26 +37,47 @@ public class Bmo {
     }
 
     private static void process(String input) {
+        try {
+            if (input == null || input.trim().isEmpty()) {
+                throw new BmoException("Please describe the task.");
+            }
 
-        String[] inputParts = input.split(" ");
+            String[] inputParts = input.split(" ", 2);
+            String command = inputParts[0];
+            String details = inputParts.length > 1 ? inputParts[1] : "";
 
-        switch (inputParts[0]) {
+            switch (command) {
+                case "mark":
+                    if (details.isEmpty()) {
+                        throw new BmoException("Please indicate which task to mark.");
+                    }
+                    Bmo.mark(Integer.parseInt(details) - 1);
+                    break;
 
-            case "mark":
-                Bmo.mark(Integer.parseInt(inputParts[1]) - 1);
-                break;
+                case "unmark":
+                    if (details.isEmpty()) {
+                        throw new BmoException("Please indicate which task to unmark.");
+                    }
+                    Bmo.unmark(Integer.parseInt(details) - 1);
+                    break;
 
-            case "unmark":
-                Bmo.unmark(Integer.parseInt(inputParts[1]) - 1);
-                break;
+                case "list":
+                    Bmo.list();
+                    break;
+                
+                case "todo":
+                case "deadline":
+                case "event":
+                    Bmo.add(command, details);
+                    break;
 
-            case "list":
-                Bmo.list();
-                break;
-        
-            default:
-                Bmo.add(input);
-                break;
+                default:
+                    throw new BmoException("BMO doesn't understand that command.");
+            }
+        } catch (BmoException e) {
+            System.out.println("OOPS!!! " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("OOPS!!! Please provide a valid task number.");
         }
         System.out.println(Bmo.LINE);
     }
@@ -79,11 +100,10 @@ public class Bmo {
         }
     }
 
-    private static void add(String input) {
-        
-        String[] inputParts = input.split(" ", 2);
-        String command = inputParts[0];
-        String details = inputParts[1];
+    private static void add(String command, String details) throws BmoException {
+        if (details.isEmpty()) {
+             throw new BmoException("The description of a " + command + " cannot be empty.");
+        }
 
         Task newTask = null;
 
@@ -94,32 +114,50 @@ public class Bmo {
             
             case "deadline":
                 String[] dParts = details.split(" /by ");
+                if (dParts.length < 2) {
+                    throw new BmoException("Invalid deadline format. Use: deadline <desc> /by <time>");
+                }
                 newTask = new Deadline(dParts[0], dParts[1]);
                 break;
 
             case "event":
                 String[] eParts = details.split(" /from ");
+                if (eParts.length < 2) {
+                     throw new BmoException("Invalid event format. Use: event <desc> /from <time> /to <time>");
+                }
                 String desc = eParts[0];
                 String[] tParts = eParts[1].split(" /to ");
+                if (tParts.length < 2) {
+                     throw new BmoException("Invalid event format. Missing /to.");
+                }
                 newTask = new Event(desc, tParts[0], tParts[1]);        
                 break;
         
             default:
                 break;
         }
-        Bmo.storage.add(newTask);
-        System.out.println("Got it. I've added this task:");
-        System.out.println(Bmo.storage.get(Bmo.storage.size() - 1));
-        System.out.println("Now you have " + Bmo.storage.size() + " tasks in the list.");
+
+        if (newTask != null) {
+            Bmo.storage.add(newTask);
+            System.out.println("Got it. I've added this task:");
+            System.out.println("  " + newTask);
+            System.out.println("Now you have " + Bmo.storage.size() + " tasks in the list.");
+        }
     }
 
-    private static void mark(int index) {
+    private static void mark(int index) throws BmoException {
+        if (index < 0 || index >= Bmo.storage.size()) {
+            throw new BmoException("Task number is out of bounds.");
+        }
         Bmo.storage.get(index).toggle();
         System.out.println("Nice! I've marked this task as done:");
         System.out.println(Bmo.storage.get(index));
     }
 
-    private static void unmark(int index) {
+    private static void unmark(int index) throws BmoException {
+        if (index < 0 || index >= Bmo.storage.size()) {
+            throw new BmoException("Task number is out of bounds.");
+        }
         Bmo.storage.get(index).toggle();
         System.out.println("Ok, I've marked this task as not done yet:");
         System.out.println(Bmo.storage.get(index));
