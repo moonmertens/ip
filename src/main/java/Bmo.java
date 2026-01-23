@@ -80,8 +80,37 @@ public class Bmo {
     }
 
     private static void add(String input) {
-        Bmo.storage.add(new Task(input));
-        System.out.println("added: " + input);
+        
+        String[] inputParts = input.split(" ", 2);
+        String command = inputParts[0];
+        String details = inputParts[1];
+
+        Task newTask = null;
+
+        switch (command) {
+            case "todo":
+                newTask = new ToDo(details);
+                break;
+            
+            case "deadline":
+                String[] dParts = details.split(" /by ");
+                newTask = new Deadline(dParts[0], dParts[1]);
+                break;
+
+            case "event":
+                String[] eParts = details.split(" /from ");
+                String desc = eParts[0];
+                String[] tParts = eParts[1].split(" /to ");
+                newTask = new Event(desc, tParts[0], tParts[1]);        
+                break;
+        
+            default:
+                break;
+        }
+        Bmo.storage.add(newTask);
+        System.out.println("Got it. I've added this task:");
+        System.out.println(Bmo.storage.get(Bmo.storage.size() - 1));
+        System.out.println("Now you have " + Bmo.storage.size() + " tasks in the list.");
     }
 
     private static void mark(int index) {
