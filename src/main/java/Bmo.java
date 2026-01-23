@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Bmo {
 
     private static final String LINE = "________________________________________________________________";
@@ -7,7 +9,21 @@ public class Bmo {
         
         System.out.println(LINE);
         Bmo.greet();
-        Bmo.exit();
+
+        Scanner sc = new Scanner(System.in);
+        
+        while (true) {
+            String input = sc.nextLine();
+            System.out.println(LINE);
+
+            if (input.equals("bye")) {
+                Bmo.exit();
+                break;
+            }
+            System.out.println(input);
+            System.out.println(LINE);
+        }
+
 
     }
 
@@ -21,4 +37,7 @@ public class Bmo {
         System.out.println("Bye. Hope to see you again soon!");
         System.out.println(LINE);
     }
+
+
+
 }
