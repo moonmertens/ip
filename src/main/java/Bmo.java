@@ -7,7 +7,7 @@ public class Bmo {
     private static final String LINE = "________________________________________________________________";
     private static final String NAME = "BMO";
 
-    private static List<String> storage = new ArrayList<String>();
+    private static List<Task> storage = new ArrayList<Task>();
 
     public static void main(String[] args) {
         
@@ -28,6 +28,7 @@ public class Bmo {
                 break;
             }
             
+            // Else, handle it with process
             Bmo.process(input);
 
         }
@@ -36,7 +37,19 @@ public class Bmo {
     }
 
     private static void process(String input) {
-        switch (input) {
+
+        String[] inputParts = input.split(" ");
+
+        switch (inputParts[0]) {
+
+            case "mark":
+                Bmo.mark(Integer.parseInt(inputParts[1]) - 1);
+                break;
+
+            case "unmark":
+                Bmo.unmark(Integer.parseInt(inputParts[1]) - 1);
+                break;
+
             case "list":
                 Bmo.list();
                 break;
@@ -60,14 +73,27 @@ public class Bmo {
     }
 
     private static void list() {
+        System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < Bmo.storage.size(); i++) {
             System.out.println((i + 1) + ". " + Bmo.storage.get(i));
         }
     }
 
     private static void add(String input) {
-        Bmo.storage.add(input);
+        Bmo.storage.add(new Task(input));
         System.out.println("added: " + input);
+    }
+
+    private static void mark(int index) {
+        Bmo.storage.get(index).toggle();
+        System.out.println("Nice! I've marked this task as done:");
+        System.out.println(Bmo.storage.get(index));
+    }
+
+    private static void unmark(int index) {
+        Bmo.storage.get(index).toggle();
+        System.out.println("Ok, I've marked this task as not done yet:");
+        System.out.println(Bmo.storage.get(index));
     }
 
 }
