@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,12 +10,14 @@ public class Bmo {
     private static final String LINE = "________________________________________________________________";
     private static final String NAME = "BMO";
 
+    private static final String FILEPATH = "bmo_data.txt";
     private static List<Task> storage = new ArrayList<Task>();
 
     public static void main(String[] args) {
         
         System.out.println(LINE);
         Bmo.greet();
+        Bmo.load();
 
         Scanner sc = new Scanner(System.in);
         
@@ -153,6 +158,7 @@ public class Bmo {
 
         if (newTask != null) {
             Bmo.storage.add(newTask);
+            Bmo.save();
             System.out.println("Got it. I've added this task:");
             System.out.println("  " + newTask);
             System.out.println("Now you have " + Bmo.storage.size() + " tasks in the list.");
@@ -164,6 +170,7 @@ public class Bmo {
             throw new BmoException("Task number is out of bounds.");
         }
         Bmo.storage.get(index).setStatus(true);
+        Bmo.save();
         System.out.println("Nice! I've marked this task as done:");
         System.out.println(Bmo.storage.get(index));
     }
@@ -173,6 +180,7 @@ public class Bmo {
             throw new BmoException("Task number is out of bounds.");
         }
         Bmo.storage.get(index).setStatus(false);
+        Bmo.save();
         System.out.println("Ok, I've marked this task as not done yet:");
         System.out.println(Bmo.storage.get(index));
     }
@@ -182,9 +190,61 @@ public class Bmo {
             throw new BmoException("Task number is out of bounds.");
         }
         Task task = Bmo.storage.remove(index);
+        Bmo.save();
         System.out.println("Noted. I've removed this task:");
         System.out.println("  " + task);
         System.out.println("Now you have " + Bmo.storage.size() + " tasks in the list.");
+    }
+
+    private static void save() {
+        try {
+            File f = new File(Bmo.FILEPATH);
+            if (f.getParentFile() != null) {
+                f.getParentFile().mkdirs();
+            }
+            FileWriter fw = new FileWriter(Bmo.FILEPATH);
+            for (Task task : Bmo.storage) {
+                fw.write(task.toSaveString() + System.lineSeparator());
+            }
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("Error saving file: " + e.getMessage());
+        }
+    }
+    
+    private static void load() {
+        try {
+            File f = new File(Bmo.FILEPATH);
+            if (!f.exists()) {
+                return;
+            }
+            Scanner sc = new Scanner(f);
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] parts = line.split(" \\| ");
+                Task task = null;
+                switch (parts[0]) {
+                    case "T":
+                        task = new ToDo(parts[2]);
+                        break;
+                    case "D":
+                        task = new Deadline(parts[2], parts[3]);
+                        break;
+                    case "E":
+                        task = new Event(parts[2], parts[3], parts[4]);
+                        break;
+                }
+                if (task != null) {
+                    if (parts[1].equals("1")) {
+                        task.setStatus(true);
+                    }
+                    Bmo.storage.add(task);
+                }
+            }
+            sc.close();
+        } catch (Exception e) {
+            System.out.println("Error loading file: " + e.getMessage());
+        }
     }
 
 }

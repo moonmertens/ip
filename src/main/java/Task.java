@@ -12,6 +12,10 @@ public class Task {
         this.finished = isDone;
     }
 
+    public String toSaveString() {
+        return (this.finished ? "1" : "0") + " | " + this.desc;
+    }
+
     @Override
     public String toString() {
         if (this.finished) {
