@@ -43,38 +43,45 @@ public class Bmo {
             }
 
             String[] inputParts = input.split(" ", 2);
-            String command = inputParts[0];
+            String commandStr = inputParts[0];
             String details = inputParts.length > 1 ? inputParts[1] : "";
 
+            Command command;
+            try {
+                command = Command.valueOf(commandStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new BmoException("BMO doesn't understand that command.");
+            }
+
             switch (command) {
-                case "mark":
+                case MARK:
                     if (details.isEmpty()) {
                         throw new BmoException("Please indicate which task to mark.");
                     }
                     Bmo.mark(Integer.parseInt(details) - 1);
                     break;
 
-                case "unmark":
+                case UNMARK:
                     if (details.isEmpty()) {
                         throw new BmoException("Please indicate which task to unmark.");
                     }
                     Bmo.unmark(Integer.parseInt(details) - 1);
                     break;
 
-                case "delete":
+                case DELETE:
                     if (details.isEmpty()) {
                         throw new BmoException("Please indicate which task to delete.");
                     }
                     Bmo.delete(Integer.parseInt(details) - 1);
                     break;
 
-                case "list":
+                case LIST:
                     Bmo.list();
                     break;
                 
-                case "todo":
-                case "deadline":
-                case "event":
+                case TODO:
+                case DEADLINE:
+                case EVENT:
                     Bmo.add(command, details);
                     break;
 
@@ -107,19 +114,19 @@ public class Bmo {
         }
     }
 
-    private static void add(String command, String details) throws BmoException {
+    private static void add(Command command, String details) throws BmoException {
         if (details.isEmpty()) {
-             throw new BmoException("The description of a " + command + " cannot be empty.");
+             throw new BmoException("The description of a " + command.toString().toLowerCase() + " cannot be empty.");
         }
 
         Task newTask = null;
 
         switch (command) {
-            case "todo":
+            case TODO:
                 newTask = new ToDo(details);
                 break;
             
-            case "deadline":
+            case DEADLINE:
                 String[] dParts = details.split(" /by ");
                 if (dParts.length < 2) {
                     throw new BmoException("Invalid deadline format. Use: deadline <desc> /by <time>");
@@ -127,7 +134,7 @@ public class Bmo {
                 newTask = new Deadline(dParts[0], dParts[1]);
                 break;
 
-            case "event":
+            case EVENT:
                 String[] eParts = details.split(" /from ");
                 if (eParts.length < 2) {
                      throw new BmoException("Invalid event format. Use: event <desc> /from <time> /to <time>");
