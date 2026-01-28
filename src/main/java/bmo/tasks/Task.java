@@ -1,3 +1,5 @@
+package bmo.tasks;
+
 public class Task {
     
     private boolean finished;
