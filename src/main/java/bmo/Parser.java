@@ -21,6 +21,9 @@ public class Parser {
                 return new ExitCommand();
             case "list":
                 return new ListCommand();
+            case "find":
+                if (details.isEmpty()) throw new BmoException("Please provide a keyword to search for.");
+                return new FindCommand(details);
             case "mark":
                 if (details.isEmpty()) throw new BmoException("Please indicate which task to mark.");
                 try {
