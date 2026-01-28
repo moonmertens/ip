@@ -12,14 +12,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Handles loading and saving of tasks to a file on the hard disk.
+ */
 public class Storage {
 
     private String filePath;
 
+    /**
+     * Constructs a Storage object with the specified file path.
+     *
+     * @param filePath The path to the file where data is stored.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Loads tasks from the file.
+     *
+     * @return A list of tasks loaded from the file.
+     */
     public List<Task> load() {
         List<Task> loadedTasks = new ArrayList<>();
         try {
@@ -57,6 +70,11 @@ public class Storage {
         return loadedTasks;
     }
 
+    /**
+     * Saves the list of tasks to the file.
+     *
+     * @param tasks The list of tasks to save.
+     */
     public void save(List<Task> tasks) {
         try {
             File f = new File(this.filePath);

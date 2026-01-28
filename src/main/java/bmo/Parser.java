@@ -5,8 +5,18 @@ import bmo.tasks.ToDo;
 import bmo.tasks.Deadline;
 import bmo.tasks.Event;
 
+/**
+ * Parses user input to create valid Command objects.
+ */
 public class Parser {
 
+    /**
+     * Parses the full command string into a specific Command object.
+     *
+     * @param fullCommand The full user input string.
+     * @return The corresponding Command object.
+     * @throws BmoException If the command is invalid or missing required details.
+     */
     public static Command parse(String fullCommand) throws BmoException {
         if (fullCommand == null || fullCommand.trim().isEmpty()) {
             throw new BmoException("Please describe the task.");

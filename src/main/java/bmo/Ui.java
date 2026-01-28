@@ -4,25 +4,40 @@ import bmo.tasks.Task;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Handles all user interaction, including reading input and printing messages.
+ */
 public class Ui {
     private static final String LINE = "________________________________________________________________";
     private static final String NAME = "BMO";
     private Scanner sc;
 
+    /**
+     * Constructs a new Ui instance and initializes the scanner.
+     */
     public Ui() {
         this.sc = new Scanner(System.in);
     }
 
+    /**
+     * Reads a command line from the user.
+     *
+     * @return The line of text entered by the user.
+     */
     public String readCommand() {
         return sc.nextLine();
     }
 
+    /**
+     * Displays the welcome message to the user.
+     */
     public void showWelcome() {
         System.out.println(LINE);
         System.out.println("Hello! I'm " + NAME);
         System.out.println("What can I do for you?");
         System.out.println(LINE);
     }
+
 
     public void showBye() {
         System.out.println("Bye. Hope to see you again soon!");
