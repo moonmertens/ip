@@ -80,4 +80,11 @@ public class Ui {
         System.out.println("Ok, I've marked this task as not done yet:");
         System.out.println(task);
     }
+
+    public void showFoundTasks(List<Task> tasks) {
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + ". " + tasks.get(i));
+        }
+    }
 }

@@ -4,6 +4,7 @@ import bmo.commands.AddCommand;
 import bmo.commands.Command;
 import bmo.commands.DeleteCommand;
 import bmo.commands.ExitCommand;
+import bmo.commands.FindCommand;
 import bmo.commands.ListCommand;
 import bmo.commands.MarkCommand;
 import bmo.commands.UnmarkCommand;
@@ -37,6 +38,11 @@ public class Parser {
             return new ExitCommand();
         case "list":
             return new ListCommand();
+        case "find":
+            if (details.isEmpty()) {
+                throw new BmoException("Please provide a keyword to search for.");
+            }
+            return new FindCommand(details);
         case "mark":
             if (details.isEmpty()) {
                 throw new BmoException("Please indicate which task to mark.");
