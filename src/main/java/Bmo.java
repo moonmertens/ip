@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -97,6 +98,8 @@ public class Bmo {
             System.out.println("OOPS!!! " + e.getMessage());
         } catch (NumberFormatException e) {
             System.out.println("OOPS!!! Please provide a valid task number.");
+        } catch (DateTimeParseException e) {
+            System.out.println("OOPS!!! Invalid date format. Please use: yyyy-MM-dd HHmm");
         }
         System.out.println(Bmo.LINE);
     }
