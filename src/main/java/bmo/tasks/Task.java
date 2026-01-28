@@ -5,7 +5,7 @@ package bmo.tasks;
  */
 public class Task {
     
-    private boolean finished;
+    private boolean isDone;
     private String desc;
 
     /**
@@ -15,7 +15,7 @@ public class Task {
      */
     public Task(String desc) {
         this.desc = desc;
-        this.finished = false;
+        this.isDone = false;
     }
 
     /**
@@ -24,7 +24,7 @@ public class Task {
      * @param isDone True if the task is done, false otherwise.
      */
     public void setStatus(boolean isDone) {
-        this.finished = isDone;
+        this.isDone = isDone;
     }
 
     /**
@@ -33,12 +33,12 @@ public class Task {
      * @return A formatted string suitable for saving to a file.
      */
     public String toSaveString() {
-        return (this.finished ? "1" : "0") + " | " + this.desc;
+        return (this.isDone ? "1" : "0") + " | " + this.desc;
     }
 
     @Override
     public String toString() {
-        if (this.finished) {
+        if (this.isDone) {
             return "[X] " + this.desc; 
         }
         return "[ ] " + this.desc;
