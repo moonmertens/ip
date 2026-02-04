@@ -1,9 +1,9 @@
 package bmo.commands;
 
+import bmo.Storage;
+import bmo.Ui;
 import bmo.tasks.Task;
 import bmo.tasks.TaskList;
-import bmo.Ui;
-import bmo.Storage;
 
 /**
  * Represents a command to add a task to the task list.

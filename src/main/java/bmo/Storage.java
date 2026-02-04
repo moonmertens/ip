@@ -1,16 +1,16 @@
 package bmo;
 
-import bmo.tasks.Task;
-import bmo.tasks.ToDo;
-import bmo.tasks.Deadline;
-import bmo.tasks.Event;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import bmo.tasks.Deadline;
+import bmo.tasks.Event;
+import bmo.tasks.Task;
+import bmo.tasks.ToDo;
 
 /**
  * Handles loading and saving of tasks to a file on the hard disk.
@@ -46,15 +46,18 @@ public class Storage {
                 String[] parts = line.split(" \\| ");
                 Task task = null;
                 switch (parts[0]) {
-                    case "T":
-                        task = new ToDo(parts[2]);
-                        break;
-                    case "D":
-                        task = new Deadline(parts[2], parts[3]);
-                        break;
-                    case "E":
-                        task = new Event(parts[2], parts[3], parts[4]);
-                        break;
+                case "T":
+                    task = new ToDo(parts[2]);
+                    break;
+                case "D":
+                    task = new Deadline(parts[2], parts[3]);
+                    break;
+                case "E":
+                    task = new Event(parts[2], parts[3], parts[4]);
+                    break;
+                default:
+                    // Ignore invalid tasks
+                    break;
                 }
                 if (task != null) {
                     if (parts[1].equals("1")) {

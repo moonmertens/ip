@@ -1,10 +1,10 @@
 package bmo.commands;
 
+import bmo.BmoException;
+import bmo.Storage;
+import bmo.Ui;
 import bmo.tasks.Task;
 import bmo.tasks.TaskList;
-import bmo.Ui;
-import bmo.Storage;
-import bmo.BmoException;
 
 /**
  * Represents a command to delete a task from the task list.

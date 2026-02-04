@@ -1,11 +1,12 @@
 package bmo.commands;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import bmo.Storage;
 import bmo.Ui;
 import bmo.tasks.Task;
 import bmo.tasks.TaskList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Represents a command to find tasks that contain a specific keyword.

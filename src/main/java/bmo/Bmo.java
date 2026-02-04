@@ -1,9 +1,10 @@
 package bmo;
 
-import bmo.commands.Command;
-import bmo.tasks.TaskList;
 import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
+
+import bmo.commands.Command;
+import bmo.tasks.TaskList;
 
 /**
  * The main class for the Bmo application.
@@ -46,7 +47,7 @@ public class Bmo {
             } catch (BmoException e) {
                 ui.showError(e.getMessage());
             } catch (DateTimeParseException e) {
-                 ui.showError("Invalid date format. Please use: yyyy-MM-dd HHmm");
+                ui.showError("Invalid date format. Please use: yyyy-MM-dd HHmm");
             } catch (NoSuchElementException e) {
                 // End of input, exit gracefully
                 isExit = true;

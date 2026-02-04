@@ -62,7 +62,7 @@ public class TaskList {
     public int size() {
         return tasks.size();
     }
-    
+
     public List<Task> getTasks() {
         return tasks;
     }

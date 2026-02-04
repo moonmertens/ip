@@ -4,7 +4,7 @@ package bmo.tasks;
  * Represents a generic task with a description and completion status.
  */
 public class Task {
-    
+
     private boolean isDone;
     private String desc;
 
@@ -39,7 +39,7 @@ public class Task {
     @Override
     public String toString() {
         if (this.isDone) {
-            return "[X] " + this.desc; 
+            return "[X] " + this.desc;
         }
         return "[ ] " + this.desc;
     }

@@ -1,8 +1,9 @@
 package bmo;
 
-import bmo.tasks.Task;
 import java.util.List;
 import java.util.Scanner;
+
+import bmo.tasks.Task;
 
 /**
  * Handles all user interaction, including reading input and printing messages.

@@ -1,8 +1,8 @@
 package bmo.commands;
 
-import bmo.tasks.TaskList;
-import bmo.Ui;
 import bmo.Storage;
+import bmo.Ui;
+import bmo.tasks.TaskList;
 
 /**
  * Represents a command to list all tasks.
