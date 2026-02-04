@@ -21,6 +21,17 @@ public class Ui {
     }
 
     /**
+     * Prints the given messages to the user.
+     *
+     * @param messages The messages to be displayed.
+     */
+    public void println(String... messages) {
+        for (String message : messages) {
+            System.out.println(message);
+        }
+    }
+
+    /**
      * Reads a command line from the user.
      *
      * @return The line of text entered by the user.
@@ -33,26 +44,21 @@ public class Ui {
      * Displays the welcome message to the user.
      */
     public void showWelcome() {
-        System.out.println(LINE);
-        System.out.println("Hello! I'm " + NAME);
-        System.out.println("What can I do for you?");
-        System.out.println(LINE);
+        println(LINE, "Hello! I'm " + NAME, "What can I do for you?", LINE);
     }
-
 
     /**
      * Displays the exit message to the user.
      */
     public void showBye() {
-        System.out.println("Bye. Hope to see you again soon!");
-        System.out.println(LINE);
+        println("Bye. Hope to see you again soon!", LINE);
     }
 
     /**
      * Displays a horizontal line separator.
      */
     public void showLine() {
-        System.out.println(LINE);
+        println(LINE);
     }
 
     /**
@@ -61,7 +67,7 @@ public class Ui {
      * @param message The error message to display.
      */
     public void showError(String message) {
-        System.out.println("OOPS!!! " + message);
+        println("OOPS!!! " + message);
     }
 
     /**
@@ -70,9 +76,9 @@ public class Ui {
      * @param tasks The list of tasks to display.
      */
     public void showTaskList(List<Task> tasks) {
-        System.out.println("Here are the tasks in your list:");
+        println("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
+            println((i + 1) + ". " + tasks.get(i));
         }
     }
 
@@ -83,9 +89,7 @@ public class Ui {
      * @param size The new size of the task list.
      */
     public void showAdded(Task task, int size) {
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + size + " tasks in the list.");
+        println("Got it. I've added this task:", "  " + task, "Now you have " + size + " tasks in the list.");
     }
 
     /**
@@ -95,9 +99,7 @@ public class Ui {
      * @param size The new size of the task list.
      */
     public void showDeleted(Task task, int size) {
-        System.out.println("Noted. I've removed this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + size + " tasks in the list.");
+        println("Noted. I've removed this task:", "  " + task, "Now you have " + size + " tasks in the list.");
     }
 
     /**
@@ -106,8 +108,7 @@ public class Ui {
      * @param task The task that was marked.
      */
     public void showMarked(Task task) {
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println(task);
+        println("Nice! I've marked this task as done:", task.toString());
     }
 
     /**
@@ -116,8 +117,7 @@ public class Ui {
      * @param task The task that was unmarked.
      */
     public void showUnmarked(Task task) {
-        System.out.println("Ok, I've marked this task as not done yet:");
-        System.out.println(task);
+        println("Ok, I've marked this task as not done yet:", task.toString());
     }
 
     /**
@@ -126,9 +126,9 @@ public class Ui {
      * @param tasks The list of matching tasks.
      */
     public void showFoundTasks(List<Task> tasks) {
-        System.out.println("Here are the matching tasks in your list:");
+        println("Here are the matching tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
+            println((i + 1) + ". " + tasks.get(i));
         }
     }
 }
