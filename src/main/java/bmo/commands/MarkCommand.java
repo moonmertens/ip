@@ -5,9 +5,17 @@ import bmo.Ui;
 import bmo.Storage;
 import bmo.BmoException;
 
+/**
+ * Represents a command to mark a task as done.
+ */
 public class MarkCommand extends Command {
     private int index;
 
+    /**
+     * Constructs a MarkCommand with the specified task index.
+     *
+     * @param index The zero-based index of the task to mark.
+     */
     public MarkCommand(int index) {
         this.index = index;
     }

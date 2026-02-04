@@ -5,9 +5,17 @@ import bmo.Ui;
 import bmo.Storage;
 import bmo.BmoException;
 
+/**
+ * Represents a command to unmark a task (mark as not done).
+ */
 public class UnmarkCommand extends Command {
     private int index;
 
+    /**
+     * Constructs an UnmarkCommand with the specified task index.
+     *
+     * @param index The zero-based index of the task to unmark.
+     */
     public UnmarkCommand(int index) {
         this.index = index;
     }

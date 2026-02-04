@@ -34,14 +34,31 @@ public class TaskList {
         tasks.add(task);
     }
 
+    /**
+     * Deletes a task from the list.
+     *
+     * @param index The zero-based index of the task to delete.
+     * @return The task that was removed.
+     */
     public Task delete(int index) {
         return tasks.remove(index);
     }
 
+    /**
+     * Retrieves a task from the list.
+     *
+     * @param index The zero-based index of the task to return.
+     * @return The task at the specified index.
+     */
     public Task get(int index) {
         return tasks.get(index);
     }
 
+    /**
+     * Returns the number of tasks in the list.
+     *
+     * @return The size of the task list.
+     */
     public int size() {
         return tasks.size();
     }

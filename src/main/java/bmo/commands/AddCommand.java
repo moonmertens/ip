@@ -4,11 +4,18 @@ import bmo.tasks.Task;
 import bmo.tasks.TaskList;
 import bmo.Ui;
 import bmo.Storage;
-import bmo.BmoException;
 
+/**
+ * Represents a command to add a task to the task list.
+ */
 public class AddCommand extends Command {
     private Task task;
 
+    /**
+     * Constructs an AddCommand with the specified task.
+     *
+     * @param task The task to be added.
+     */
     public AddCommand(Task task) {
         this.task = task;
     }

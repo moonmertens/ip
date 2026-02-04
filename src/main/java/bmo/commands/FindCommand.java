@@ -7,9 +7,17 @@ import bmo.tasks.TaskList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a command to find tasks that contain a specific keyword.
+ */
 public class FindCommand extends Command {
     private String keyword;
 
+    /**
+     * Constructs a FindCommand with the specified keyword.
+     *
+     * @param keyword The keyword to search for in task descriptions.
+     */
     public FindCommand(String keyword) {
         this.keyword = keyword;
     }

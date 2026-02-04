@@ -5,12 +5,20 @@ import bmo.tasks.TaskList;
 import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 
+/**
+ * The main class for the Bmo application.
+ */
 public class Bmo {
 
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Constructs a Bmo instance with the specified file path for storage.
+     *
+     * @param filePath The file path to store task data.
+     */
     public Bmo(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -22,6 +30,9 @@ public class Bmo {
         }
     }
 
+    /**
+     * Runs the main application loop.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
@@ -47,6 +58,11 @@ public class Bmo {
         }
     }
 
+    /**
+     * Starts the application.
+     *
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         new Bmo("bmo_data.txt").run();
     }

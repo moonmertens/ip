@@ -6,9 +6,17 @@ import bmo.Ui;
 import bmo.Storage;
 import bmo.BmoException;
 
+/**
+ * Represents a command to delete a task from the task list.
+ */
 public class DeleteCommand extends Command {
     private int index;
 
+    /**
+     * Constructs a DeleteCommand with the specified task index.
+     *
+     * @param index The zero-based index of the task to delete.
+     */
     public DeleteCommand(int index) {
         this.index = index;
     }
