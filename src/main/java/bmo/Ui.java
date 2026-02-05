@@ -9,15 +9,16 @@ import bmo.tasks.Task;
  * Handles all user interaction, including reading input and printing messages.
  */
 public class Ui {
-    private static final String LINE = "________________________________________________________________";
     private static final String NAME = "BMO";
     private Scanner sc;
+    private StringBuilder responseBuffer;
 
     /**
      * Constructs a new Ui instance and initializes the scanner.
      */
     public Ui() {
         this.sc = new Scanner(System.in);
+        this.responseBuffer = new StringBuilder();
     }
 
     /**
@@ -28,7 +29,19 @@ public class Ui {
     public void println(String... messages) {
         for (String message : messages) {
             System.out.println(message);
+            responseBuffer.append(message).append("\n");
         }
+    }
+
+    /**
+     * Returns the accumulated response and clears the buffer.
+     *
+     * @return The response string.
+     */
+    public String getResponse() {
+        String response = responseBuffer.toString();
+        responseBuffer.setLength(0);
+        return response;
     }
 
     /**
@@ -44,21 +57,20 @@ public class Ui {
      * Displays the welcome message to the user.
      */
     public void showWelcome() {
-        println(LINE, "Hello! I'm " + NAME, "What can I do for you?", LINE);
+        println("Hello! I'm " + NAME, "What can I do for you?");
     }
 
     /**
      * Displays the exit message to the user.
      */
     public void showBye() {
-        println("Bye. Hope to see you again soon!", LINE);
+        println("Bye. Hope to see you again soon!");
     }
 
     /**
      * Displays a horizontal line separator.
      */
     public void showLine() {
-        println(LINE);
     }
 
     /**

@@ -14,6 +14,7 @@ public class Bmo {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
+    private boolean isExit = false;
 
     /**
      * Constructs a Bmo instance with the specified file path for storage.
@@ -57,6 +58,38 @@ public class Bmo {
                 ui.showLine();
             }
         }
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     *
+     * @param input The user's input string.
+     * @return The response string from Bmo.
+     */
+    public String getResponse(String input) {
+        try {
+            Command c = Parser.parse(input);
+            c.execute(tasks, ui, storage);
+            if (c.isExit()) {
+                this.isExit = true;
+            }
+        } catch (BmoException e) {
+            ui.showError(e.getMessage());
+        } catch (DateTimeParseException e) {
+            ui.showError("Invalid date format. Please use: yyyy-MM-dd HHmm");
+        } catch (Exception e) {
+            ui.showError("An unexpected error occurred: " + e.getMessage());
+        }
+        return ui.getResponse();
+    }
+
+    /**
+     * Returns true if the exit command has been executed.
+     *
+     * @return True if the user has requested to exit, false otherwise.
+     */
+    public boolean isExit() {
+        return this.isExit;
     }
 
     /**

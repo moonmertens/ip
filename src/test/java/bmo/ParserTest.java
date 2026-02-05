@@ -1,13 +1,11 @@
 package bmo;
 
+import bmo.commands.AddCommand;
+import bmo.commands.ExitCommand;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-
-import org.junit.jupiter.api.Test;
-
-import bmo.commands.AddCommand;
-import bmo.commands.ExitCommand;
 
 public class ParserTest {
     @Test
