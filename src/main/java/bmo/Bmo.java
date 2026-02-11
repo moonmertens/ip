@@ -42,18 +42,10 @@ public class Bmo {
             try {
                 String fullCommand = ui.readCommand();
                 ui.showLine();
-                Command c = Parser.parse(fullCommand);
-                c.execute(tasks, ui, storage);
-                isExit = c.isExit();
-            } catch (BmoException e) {
-                ui.showError(e.getMessage());
-            } catch (DateTimeParseException e) {
-                ui.showError("Invalid date format. Please use: yyyy-MM-dd HHmm");
+                isExit = handleCommand(fullCommand);
             } catch (NoSuchElementException e) {
                 // End of input, exit gracefully
                 isExit = true;
-            } catch (Exception e) {
-                ui.showError("An unexpected error occurred: " + e.getMessage());
             } finally {
                 ui.showLine();
             }
@@ -67,12 +59,18 @@ public class Bmo {
      * @return The response string from Bmo.
      */
     public String getResponse(String input) {
+        boolean shouldExit = handleCommand(input);
+        if (shouldExit) {
+            this.isExit = true;
+        }
+        return ui.getResponse();
+    }
+
+    private boolean handleCommand(String input) {
         try {
             Command c = Parser.parse(input);
             c.execute(tasks, ui, storage);
-            if (c.isExit()) {
-                this.isExit = true;
-            }
+            return c.isExit();
         } catch (BmoException e) {
             ui.showError(e.getMessage());
         } catch (DateTimeParseException e) {
@@ -80,7 +78,7 @@ public class Bmo {
         } catch (Exception e) {
             ui.showError("An unexpected error occurred: " + e.getMessage());
         }
-        return ui.getResponse();
+        return false;
     }
 
     /**

@@ -88,10 +88,7 @@ public class Ui {
      * @param tasks The list of tasks to display.
      */
     public void showTaskList(List<Task> tasks) {
-        println("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            println((i + 1) + ". " + tasks.get(i));
-        }
+        showTasks("Here are the tasks in your list:", tasks);
     }
 
     /**
@@ -138,7 +135,11 @@ public class Ui {
      * @param tasks The list of matching tasks.
      */
     public void showFoundTasks(List<Task> tasks) {
-        println("Here are the matching tasks in your list:");
+        showTasks("Here are the matching tasks in your list:", tasks);
+    }
+
+    private void showTasks(String header, List<Task> tasks) {
+        println(header);
         for (int i = 0; i < tasks.size(); i++) {
             println((i + 1) + ". " + tasks.get(i));
         }

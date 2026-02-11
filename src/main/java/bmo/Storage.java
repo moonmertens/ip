@@ -40,37 +40,14 @@ public class Storage {
             if (!f.exists()) {
                 return loadedTasks;
             }
-            Scanner sc = new Scanner(f);
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine();
-                String[] parts = line.split(" \\| ");
-                Task task = null;
-                switch (parts[0]) {
-                case "T":
-                    assert parts.length >= 3 : "Invalid todo record";
-                    task = new ToDo(parts[2]);
-                    break;
-                case "D":
-                    assert parts.length >= 4 : "Invalid deadline record";
-                    task = new Deadline(parts[2], parts[3]);
-                    break;
-                case "E":
-                    assert parts.length >= 5 : "Invalid event record";
-                    task = new Event(parts[2], parts[3], parts[4]);
-                    break;
-                default:
-                    // Ignore invalid tasks
-                    break;
-                }
-                if (task != null) {
-                    assert parts[1].equals("0") || parts[1].equals("1") : "Invalid task status flag";
-                    if (parts[1].equals("1")) {
-                        task.setStatus(true);
+            try (Scanner sc = new Scanner(f)) {
+                while (sc.hasNextLine()) {
+                    Task task = parseTaskLine(sc.nextLine());
+                    if (task != null) {
+                        loadedTasks.add(task);
                     }
-                    loadedTasks.add(task);
                 }
             }
-            sc.close();
         } catch (Exception e) {
             System.out.println("Error loading file: " + e.getMessage());
         }
@@ -89,13 +66,49 @@ public class Storage {
             if (f.getParentFile() != null) {
                 f.getParentFile().mkdirs();
             }
-            FileWriter fw = new FileWriter(this.filePath);
-            for (Task task : tasks) {
-                fw.write(task.toSaveString() + System.lineSeparator());
+            try (FileWriter fw = new FileWriter(this.filePath)) {
+                for (Task task : tasks) {
+                    fw.write(task.toSaveString() + System.lineSeparator());
+                }
             }
-            fw.close();
         } catch (IOException e) {
             System.out.println("Error saving file: " + e.getMessage());
         }
+    }
+
+    private Task parseTaskLine(String line) {
+        String[] parts = line.split(" \\| ");
+        assert parts.length >= 3 : "Invalid task record";
+        if (parts.length < 3) {
+            return null;
+        }
+        Task task = null;
+        switch (parts[0]) {
+        case "T":
+            task = new ToDo(parts[2]);
+            break;
+        case "D":
+            assert parts.length >= 4 : "Invalid deadline record";
+            if (parts.length < 4) {
+                return null;
+            }
+            task = new Deadline(parts[2], parts[3]);
+            break;
+        case "E":
+            assert parts.length >= 5 : "Invalid event record";
+            if (parts.length < 5) {
+                return null;
+            }
+            task = new Event(parts[2], parts[3], parts[4]);
+            break;
+        default:
+            return null;
+        }
+
+        assert "0".equals(parts[1]) || "1".equals(parts[1]) : "Invalid task status flag";
+        if ("1".equals(parts[1])) {
+            task.setStatus(true);
+        }
+        return task;
     }
 }

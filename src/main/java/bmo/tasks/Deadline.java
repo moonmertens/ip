@@ -8,6 +8,9 @@ import java.time.format.DateTimeFormatter;
  */
 public class Deadline extends Task {
 
+    private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+    private static final DateTimeFormatter DISPLAY_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy h:mm a");
+
     private LocalDateTime by;
 
     /**
@@ -18,18 +21,17 @@ public class Deadline extends Task {
      */
     public Deadline(String desc, String by) {
         super(desc);
-        this.by = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        this.by = LocalDateTime.parse(by, INPUT_FORMAT);
     }
 
     @Override
     public String toSaveString() {
-        return "D | " + super.toSaveString() + " | " + this.by.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        return "D | " + super.toSaveString() + " | " + this.by.format(INPUT_FORMAT);
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: "
-                + this.by.format(DateTimeFormatter.ofPattern("MMM d yyyy h:mm a")) + ")";
+        return "[D]" + super.toString() + " (by: " + this.by.format(DISPLAY_FORMAT) + ")";
     }
 
 }
