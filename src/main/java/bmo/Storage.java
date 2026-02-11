@@ -40,33 +40,14 @@ public class Storage {
             if (!f.exists()) {
                 return loadedTasks;
             }
-            Scanner sc = new Scanner(f);
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine();
-                String[] parts = line.split(" \\| ");
-                Task task = null;
-                switch (parts[0]) {
-                case "T":
-                    task = new ToDo(parts[2]);
-                    break;
-                case "D":
-                    task = new Deadline(parts[2], parts[3]);
-                    break;
-                case "E":
-                    task = new Event(parts[2], parts[3], parts[4]);
-                    break;
-                default:
-                    // Ignore invalid tasks
-                    break;
-                }
-                if (task != null) {
-                    if (parts[1].equals("1")) {
-                        task.setStatus(true);
+            try (Scanner sc = new Scanner(f)) {
+                while (sc.hasNextLine()) {
+                    Task task = parseTaskLine(sc.nextLine());
+                    if (task != null) {
+                        loadedTasks.add(task);
                     }
-                    loadedTasks.add(task);
                 }
             }
-            sc.close();
         } catch (Exception e) {
             System.out.println("Error loading file: " + e.getMessage());
         }
@@ -84,13 +65,45 @@ public class Storage {
             if (f.getParentFile() != null) {
                 f.getParentFile().mkdirs();
             }
-            FileWriter fw = new FileWriter(this.filePath);
-            for (Task task : tasks) {
-                fw.write(task.toSaveString() + System.lineSeparator());
+            try (FileWriter fw = new FileWriter(this.filePath)) {
+                for (Task task : tasks) {
+                    fw.write(task.toSaveString() + System.lineSeparator());
+                }
             }
-            fw.close();
         } catch (IOException e) {
             System.out.println("Error saving file: " + e.getMessage());
         }
+    }
+
+    private Task parseTaskLine(String line) {
+        String[] parts = line.split(" \\| ");
+        if (parts.length < 3) {
+            return null;
+        }
+        Task task = null;
+        switch (parts[0]) {
+        case "T":
+            task = new ToDo(parts[2]);
+            break;
+        case "D":
+            if (parts.length < 4) {
+                return null;
+            }
+            task = new Deadline(parts[2], parts[3]);
+            break;
+        case "E":
+            if (parts.length < 5) {
+                return null;
+            }
+            task = new Event(parts[2], parts[3], parts[4]);
+            break;
+        default:
+            return null;
+        }
+
+        if ("1".equals(parts[1])) {
+            task.setStatus(true);
+        }
+        return task;
     }
 }
