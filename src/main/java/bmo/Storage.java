@@ -47,12 +47,15 @@ public class Storage {
                 Task task = null;
                 switch (parts[0]) {
                 case "T":
+                    assert parts.length >= 3 : "Invalid todo record";
                     task = new ToDo(parts[2]);
                     break;
                 case "D":
+                    assert parts.length >= 4 : "Invalid deadline record";
                     task = new Deadline(parts[2], parts[3]);
                     break;
                 case "E":
+                    assert parts.length >= 5 : "Invalid event record";
                     task = new Event(parts[2], parts[3], parts[4]);
                     break;
                 default:
@@ -60,6 +63,7 @@ public class Storage {
                     break;
                 }
                 if (task != null) {
+                    assert parts[1].equals("0") || parts[1].equals("1") : "Invalid task status flag";
                     if (parts[1].equals("1")) {
                         task.setStatus(true);
                     }
@@ -79,6 +83,7 @@ public class Storage {
      * @param tasks The list of tasks to save.
      */
     public void save(List<Task> tasks) {
+        assert tasks != null : "Task list must not be null";
         try {
             File f = new File(this.filePath);
             if (f.getParentFile() != null) {
