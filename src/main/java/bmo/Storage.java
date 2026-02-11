@@ -60,6 +60,7 @@ public class Storage {
      * @param tasks The list of tasks to save.
      */
     public void save(List<Task> tasks) {
+        assert tasks != null : "Task list must not be null";
         try {
             File f = new File(this.filePath);
             if (f.getParentFile() != null) {
@@ -77,6 +78,7 @@ public class Storage {
 
     private Task parseTaskLine(String line) {
         String[] parts = line.split(" \\| ");
+        assert parts.length >= 3 : "Invalid task record";
         if (parts.length < 3) {
             return null;
         }
@@ -86,12 +88,14 @@ public class Storage {
             task = new ToDo(parts[2]);
             break;
         case "D":
+            assert parts.length >= 4 : "Invalid deadline record";
             if (parts.length < 4) {
                 return null;
             }
             task = new Deadline(parts[2], parts[3]);
             break;
         case "E":
+            assert parts.length >= 5 : "Invalid event record";
             if (parts.length < 5) {
                 return null;
             }
@@ -101,6 +105,7 @@ public class Storage {
             return null;
         }
 
+        assert "0".equals(parts[1]) || "1".equals(parts[1]) : "Invalid task status flag";
         if ("1".equals(parts[1])) {
             task.setStatus(true);
         }
