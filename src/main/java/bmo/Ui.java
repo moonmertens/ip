@@ -68,6 +68,25 @@ public class Ui {
     }
 
     /**
+     * Displays guidance on available commands.
+     */
+    public void showHelp() {
+        println(
+                "Here are the commands you can use:",
+                "  list",
+                "  todo <desc>",
+                "  deadline <desc> /by <yyyy-MM-dd HHmm>",
+                "  event <desc> /from <yyyy-MM-dd HHmm> /to <yyyy-MM-dd HHmm>",
+                "  mark <task number>",
+                "  unmark <task number>",
+                "  delete <task number>",
+                "  find <keyword>",
+                "  help",
+                "  bye"
+        );
+    }
+
+    /**
      * Displays a horizontal line separator.
      */
     public void showLine() {
