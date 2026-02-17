@@ -28,6 +28,11 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    // AI-assisted: expose file existence so the app can show a friendly startup message.
+    public boolean hasDataFile() {
+        return new File(this.filePath).exists();
+    }
+
     /**
      * Loads tasks from the file.
      *

@@ -101,6 +101,11 @@ public class Ui {
         println("OOPS!!! " + message);
     }
 
+    // AI-assisted: separate non-error informational messages from errors.
+    public void showInfo(String message) {
+        println(message);
+    }
+
     /**
      * Displays the list of tasks to the user.
      *

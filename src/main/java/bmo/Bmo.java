@@ -24,6 +24,10 @@ public class Bmo {
     public Bmo(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
+        // AI-assisted: handle missing data file gracefully and continue with an empty list.
+        if (!storage.hasDataFile()) {
+            ui.showInfo("Data file not found. Starting with an empty task list.");
+        }
         try {
             tasks = new TaskList(storage.load());
         } catch (Exception e) {

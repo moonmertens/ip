@@ -27,4 +27,21 @@ public class ParserTest {
             assertEquals("BMO doesn't understand that command.", e.getMessage());
         }
     }
+
+    @Test
+    public void parse_todoWithExtraWhitespace_success() throws Exception {
+        // AI-assisted: verifies whitespace-tolerant command parsing.
+        assertTrue(Parser.parse("   todo    read book   ") instanceof AddCommand);
+    }
+
+    @Test
+    public void parse_markZero_exceptionThrown() {
+        // AI-assisted: verifies index validation for common user mistake.
+        try {
+            Parser.parse("mark 0");
+            fail();
+        } catch (BmoException e) {
+            assertEquals("Please provide a valid task number.", e.getMessage());
+        }
+    }
 }
