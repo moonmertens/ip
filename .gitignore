@@ -19,3 +19,7 @@ bin/
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
 bmo_data.txt
+
+# VS Code local task/debug files
+.vscode/*
+!.vscode/settings.json
