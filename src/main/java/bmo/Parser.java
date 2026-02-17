@@ -30,9 +30,10 @@ public class Parser {
             throw new BmoException("Please describe the task.");
         }
 
-        String[] parts = fullCommand.split(" ", 2);
+        // AI-assisted: normalize input to reduce whitespace edge cases.
+        String[] parts = splitCommand(fullCommand.trim());
         String commandWord = parts[0].toLowerCase();
-        String details = parts.length > 1 ? parts[1] : "";
+        String details = parts[1];
 
         switch (commandWord) {
         case "bye":
@@ -66,40 +67,66 @@ public class Parser {
         }
     }
 
+    private static String[] splitCommand(String fullCommand) {
+        // AI-assisted: centralize command splitting and trimming.
+        String[] parts = fullCommand.split("\\s+", 2);
+        String commandWord = parts[0];
+        String details = parts.length > 1 ? parts[1].trim() : "";
+        return new String[] { commandWord, details };
+    }
+
     private static int parseTaskIndex(String details, String emptyMessage) throws BmoException {
-        if (details.isEmpty()) {
+        String trimmedDetails = details.trim();
+        if (trimmedDetails.isEmpty()) {
             throw new BmoException(emptyMessage);
         }
         try {
-            return Integer.parseInt(details) - 1;
+            int index = Integer.parseInt(trimmedDetails) - 1;
+            if (index < 0) {
+                throw new BmoException("Please provide a valid task number.");
+            }
+            return index;
         } catch (NumberFormatException e) {
             throw new BmoException("Please provide a valid task number.");
         }
     }
 
     private static Command parseDeadlineCommand(String details) throws BmoException {
-        if (details.isEmpty()) {
+        if (details.trim().isEmpty()) {
             throw new BmoException("The description of a deadline cannot be empty.");
         }
-        String[] dParts = details.split(" /by ");
+        // AI-assisted: split once to preserve '/by' in descriptions.
+        String[] dParts = details.split(" /by ", 2);
         if (dParts.length < 2) {
             throw new BmoException("Invalid deadline format. Use: deadline <desc> /by <time>");
         }
-        return new AddCommand(new Deadline(dParts[0], dParts[1]));
+        String description = dParts[0].trim();
+        String by = dParts[1].trim();
+        if (description.isEmpty() || by.isEmpty()) {
+            throw new BmoException("Invalid deadline format. Use: deadline <desc> /by <time>");
+        }
+        return new AddCommand(new Deadline(description, by));
     }
 
     private static Command parseEventCommand(String details) throws BmoException {
-        if (details.isEmpty()) {
+        if (details.trim().isEmpty()) {
             throw new BmoException("The description of an event cannot be empty.");
         }
-        String[] eParts = details.split(" /from ");
+        // AI-assisted: split once to preserve '/from' in descriptions.
+        String[] eParts = details.split(" /from ", 2);
         if (eParts.length < 2) {
             throw new BmoException("Invalid event format. Use: event <desc> /from <time> /to <time>");
         }
-        String[] tParts = eParts[1].split(" /to ");
+        String[] tParts = eParts[1].split(" /to ", 2);
         if (tParts.length < 2) {
             throw new BmoException("Invalid event format. Missing /to.");
         }
-        return new AddCommand(new Event(eParts[0], tParts[0], tParts[1]));
+        String description = eParts[0].trim();
+        String from = tParts[0].trim();
+        String to = tParts[1].trim();
+        if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
+            throw new BmoException("Invalid event format. Use: event <desc> /from <time> /to <time>");
+        }
+        return new AddCommand(new Event(description, from, to));
     }
 }

@@ -37,7 +37,7 @@ public class Bmo {
      */
     public void run() {
         ui.showWelcome();
-        boolean isExit = false;
+        // AI-assisted: avoid shadowing the instance field for clearer state tracking.
         while (!isExit) {
             try {
                 String fullCommand = ui.readCommand();
